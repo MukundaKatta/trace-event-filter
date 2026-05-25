@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trace-event-filter"
+version = "0.1.0"
+description = "Filter agent JSONL trace events by kind, model, cost, duration, timestamp, error, or custom predicate. Zero dependencies."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+keywords = ["agents", "tracing", "llm", "observability", "filter"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/MukundaKatta/trace-event-filter"
+
+[tool.setuptools.packages.find]
+where = ["src"]
