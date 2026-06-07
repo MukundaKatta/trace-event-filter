@@ -9,8 +9,8 @@ Zero dependencies — standard library only.
 from __future__ import annotations
 
 import json
+from collections.abc import Callable, Iterator
 from pathlib import Path
-from typing import Any
 
 
 # ---------------------------------------------------------------------------
@@ -72,7 +72,7 @@ def _matches(
     max_duration_ms: float | None = None,
     after_ts: float | None = None,
     before_ts: float | None = None,
-    where: Any | None = None,   # custom callable
+    where: Callable[[dict], bool] | None = None,
 ) -> bool:
     if kind is not None:
         kinds = [kind] if isinstance(kind, str) else kind
@@ -124,7 +124,7 @@ def filter_events(
     max_duration_ms: float | None = None,
     after_ts: float | None = None,
     before_ts: float | None = None,
-    where: Any | None = None,
+    where: Callable[[dict], bool] | None = None,
 ) -> list[dict]:
     """Filter a list of event dicts by field values.
 
@@ -227,7 +227,7 @@ class EventFilter:
     def where_timestamp(self, *, after: float | None = None, before: float | None = None) -> "EventFilter":
         return EventFilter(filter_events(self._events, after_ts=after, before_ts=before))
 
-    def where(self, fn) -> "EventFilter":
+    def where(self, fn: Callable[[dict], bool]) -> "EventFilter":
         return EventFilter(filter_events(self._events, where=fn))
 
     def result(self) -> list[dict]:
@@ -239,5 +239,5 @@ class EventFilter:
     def __len__(self) -> int:
         return len(self._events)
 
-    def __iter__(self):
+    def __iter__(self) -> "Iterator[dict]":
         return iter(self._events)
